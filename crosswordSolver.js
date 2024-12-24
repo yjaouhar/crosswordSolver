@@ -1,43 +1,52 @@
 function crosswordSolver(emptyPuzzle, words) {
     let puzzl = table(emptyPuzzle)
+    if (!checkpuzzl(puzzl,words)){
+        console.log("Error");
+        return
+    }
+let cordoner = position(puzzl)
+    console.log(cordoner);
+}
+
+function position(puzzl) {
+    let cordoner = []
     for (let i = 0; i < puzzl.length; i++) {
-       for (let j = 0; j < puzzl[i].length; j++) {
-            if (puzzl[i][j]!=="."){
-               puzzl= print(words,puzzl,i,j)
+        for (let j = 0; j < puzzl[i].length; j++) {
+           if (puzzl[i][j]!=="."&&!isNaN(puzzl[i][j])){
+            cordoner.push({x:i,y:j,count:parseInt(puzzl[i][j])})
+           }
+            
+        }
+        
+    }
+    return cordoner
+}
+
+function checkpuzzl(puzzl,words) {
+    for (let i = 0; i < puzzl.length; i++) {
+        for (let j = 0; j < puzzl[i].length; j++) {
+            if (puzzl[i][j]!=="."&&isNaN(puzzl[i][j])){
+                return false
             }
-       }
-        
+        }
     }
-
-    console.log(puzzl);
-}
-
-function print(words,puzzl ,x,y) {
-  
-    if ( puzzl[x][y]==="1"){
-      
+   for (let i = 0; i < words.length; i++) {
+     for (let j = i+1; j < words.length; j++) {
+        if (words[i]===words[j]){
+            return false
+        }
         
-    } else if ( puzzl[x][y]==="2") {
-    //     console.log("x:",x,"y:",y);
-    //     for (let i=0 ; i<y ; i++){
-    //         puzzl[y][i]="*"
-    //     }
-    }else{
-        puzzl[x][y]=words[x][y]
-    }
-    //  
-    return puzzl
-}
-
-function table(emptyPuzzle) {
+     }
     
+   } 
+    return true
+    
+}
+function table(emptyPuzzle) {
     let puzzle = emptyPuzzle.split("\n")
-
     let mt = []
-
     for (let i = 0; i < puzzle.length; i++) {
         mt.push(puzzle[i].split(""))
-
     }
     return mt
 }
@@ -51,13 +60,3 @@ const words = ['casa', 'alan', 'ciao', 'anta']
 
 
 crosswordSolver(emptyPuzzle, words)
-
-
-/* output:
-`casa
-i..l
-anta
-o..n`
-*/
-
-
